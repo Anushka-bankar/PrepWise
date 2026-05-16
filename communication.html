@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PrepWise – Communication Tips</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .tip-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: all var(--transition);
+      cursor: default;
+    }
+    .tip-card:hover {
+      border-color: rgba(108,99,255,0.25);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+    .tip-icon {
+      width: 46px; height: 46px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .ti-purple { background: rgba(108,99,255,0.14); }
+    .ti-green  { background: rgba(67,233,123,0.10); }
+    .ti-pink   { background: rgba(255,101,132,0.10); }
+    .ti-yellow { background: rgba(255,196,57,0.10); }
+    .ti-blue   { background: rgba(99,179,237,0.12); }
+    .tip-body h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; }
+    .tip-body p  { font-size: 0.85rem; color: var(--text-muted); line-height: 1.65; }
+
+    /* Dos and Don'ts */
+    .do-dont {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+    @media (max-width: 640px) { .do-dont { grid-template-columns: 1fr; } }
+    .do-box, .dont-box {
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+    .do-box   { background: rgba(67,233,123,0.06); border: 1px solid rgba(67,233,123,0.2); }
+    .dont-box { background: rgba(255,101,132,0.06); border: 1px solid rgba(255,101,132,0.2); }
+    .do-box h3   { color: #43e97b; margin-bottom: 16px; font-size: 1.1rem; }
+    .dont-box h3 { color: var(--accent2); margin-bottom: 16px; font-size: 1.1rem; }
+    .dd-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .dd-list li { font-size: 0.88rem; color: var(--text-muted); display: flex; gap: 10px; line-height: 1.55; }
+    .dd-list li::before { flex-shrink: 0; }
+    .do-box .dd-list li::before   { content: '✅'; }
+    .dont-box .dd-list li::before { content: '❌'; }
+
+    /* Body language section */
+    .bl-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+      margin-bottom: 48px;
+    }
+    .bl-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 18px 20px;
+      text-align: center;
+      transition: all var(--transition);
+    }
+    .bl-card:hover { border-color: rgba(108,99,255,0.2); transform: translateY(-2px); }
+    .bl-card .bl-icon { font-size: 2rem; margin-bottom: 10px; }
+    .bl-card h4 { font-size: 0.9rem; margin-bottom: 6px; }
+    .bl-card p  { font-size: 0.78rem; color: var(--text-muted); line-height: 1.55; }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="logo">🎯 Prep<span>Wise</span></div>
+      <div class="nav-links">
+        <a href="index.html">Dashboard</a>
+        <a href="aptitude.html">Aptitude</a>
+        <a href="hrquestions.html">HR Questions</a>
+        <a href="communication.html" class="active">Communication</a>
+      </div>
+      <div class="nav-user">
+        <span>Hi, <span id="nav-user-name"></span></span>
+        <button class="btn-logout" id="btn-logout">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="page-hero animate-up">
+      <span class="badge badge-green" style="margin-bottom:14px;">💬 Communication</span>
+      <h1>Communication Tips<span class="accent-dot">.</span></h1>
+      <p>Building confidence, clarity, and impact — the soft skills that make the real difference in interviews.</p>
+    </div>
+
+    <!-- 12 Tips -->
+    <h2 class="section-title animate-up">Key Tips<span class="accent-dot">.</span></h2>
+    <p class="section-subtitle animate-up delay-1">12 actionable habits to communicate like a pro</p>
+
+    <div class="tips-grid">
+      <div class="tip-card animate-up delay-1">
+        <div class="tip-icon ti-purple">🎯</div>
+        <div class="tip-body">
+          <h4>Be Concise and Structured</h4>
+          <p>Use the STAR method (Situation, Task, Action, Result) to keep your answers focused. Avoid rambling — aim for 1–2 minute responses.</p>
+        </div>
+      </div>
+      <div class="tip-card animate-up delay-2">
+        <div class="tip-icon ti-green">👁️</div>
+        <div class="tip-body">
+          <h4>Maintain Eye Contact</h4>
+          <p>Good eye contact shows confidence and engagement. In virtual interviews, look at the camera rather than the screen to simulate direct eye contact.</p>
+        </div>
+      </div>
+      <div class="tip-card animate-up delay-3">
+        <div class="tip-icon ti-pink">🎙️</div>
+        <div class="tip-body">
+          <h4>Control Your Pace</h4>
+          <p>Speaking too fast signals nervousness. Take a breath, slow down, and pause between key points. Pausing also gives the interviewer time to absorb what you've said.</p>
+        </div>
+      </div>
+      <div class="tip-card animate-up delay-1">
+        <div class="tip-icon ti-yellow">👂</div>
+        <div class="tip-body">
+          <h4>Listen Actively</h4>
+          <p>Don't just wait for your turn to speak. Nod, take brief notes, and ask for clarification if a question is unclear. This shows genuine interest and thoughtfulness.</p>
+        </div>
+      </div>
+      <div class="tip-card animate-up delay-2">
+        <div class="tip-icon ti-blue">✨</div>
+        <div class="tip-body">
+          <h4>Use Positive Language</h4>
+          <p>Replace "I can't" with "I'm currently learning." Frame negatives positively. Avoid filler words like "um," "uh," "like," and "you know."</p>
+        </div>
+      </div>
+      <div class="tip-card animate-up delay-3">
+        <div class="tip-icon ti-purple">🔄</div>
+        <div class="tip-body">
+          <h4>Practice Out Loud</h4>
+          <p>Reading answers silently is very different from speaking them aloud. Record yourself or practice with a friend to catch awkward phrasing and build fluency.</p>
+        </div>
+      </div>
+      <div class="tip-card animate-up delay-1">
+        <div class="tip-icon ti-green">📖</div>
+        <div class="tip-body">
+          <h4>Research Before You Speak</h4>
+          <p>Know the company, role, and industry. Referencing specific facts about the company in your answers shows preparation and genuine interest.</p>
+        </div>
+      </div>
+      <div class="tip-card animate-up delay-2">
+        <div class="tip-icon ti-pink">💡</div>
+        <div class="tip-body">
+          <h4>Embrace Silence</h4>
+          <p>It's okay to pause and think before answering. A thoughtful 3-second pause is far better than rushing into a rambling answer. Silence shows composure.</p>
+        </div>
+      </div>
+      <div class="tip-card animate-up delay-3">
+        <div class="tip-icon ti-yellow">🤝</div>
+        <div class="tip-body">
+          <h4>Build Rapport Early</h4>
+          <p>Smile warmly when you enter, use the interviewer's name naturally, and find a genuine connection in the small talk. Interviewers hire people they like.</p>
+        </div>
+      </div>
+      <div class="tip-card animate-up delay-1">
+        <div class="tip-icon ti-blue">📝</div>
+        <div class="tip-body">
+          <h4>Prepare Stories, Not Scripts</h4>
+          <p>Memorizing word-for-word answers makes you sound robotic. Instead, memorize the key points and structure of your stories so they flow naturally.</p>
+        </div>
+      </div>
+      <div class="tip-card animate-up delay-2">
+        <div class="tip-icon ti-purple">💪</div>
+        <div class="tip-body">
+          <h4>Confident Vocabulary</h4>
+          <p>Use assertive language: "I achieved," "I led," "I built" rather than "I tried to," "I sort of" or "I think I maybe." Own your accomplishments fully.</p>
+        </div>
+      </div>
+      <div class="tip-card animate-up delay-3">
+        <div class="tip-icon ti-green">🌟</div>
+        <div class="tip-body">
+          <h4>End with Enthusiasm</h4>
+          <p>Always express genuine excitement at the end. A simple "I'm really excited about this opportunity and would love to contribute to the team" leaves a lasting impression.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Body Language -->
+    <h2 class="section-title animate-up">Body Language<span class="accent-dot">.</span></h2>
+    <p class="section-subtitle animate-up delay-1">Non-verbal cues account for over 55% of communication</p>
+
+    <div class="bl-grid">
+      <div class="bl-card animate-up delay-1">
+        <div class="bl-icon">🪑</div>
+        <h4>Posture</h4>
+        <p>Sit upright, lean slightly forward to show engagement. Avoid slouching or crossing your arms.</p>
+      </div>
+      <div class="bl-card animate-up delay-2">
+        <div class="bl-icon">😊</div>
+        <h4>Smile</h4>
+        <p>A natural smile conveys warmth and approachability. Don't force it — let it come from genuine enthusiasm.</p>
+      </div>
+      <div class="bl-card animate-up delay-3">
+        <div class="bl-icon">🤲</div>
+        <h4>Hand Gestures</h4>
+        <p>Use open hand gestures to emphasize points. Avoid pointing fingers or fidgeting with objects.</p>
+      </div>
+      <div class="bl-card animate-up delay-1">
+        <div class="bl-icon">🗣️</div>
+        <h4>Voice Tone</h4>
+        <p>Vary your tone to avoid monotony. Lower pitch on key points sounds more authoritative and confident.</p>
+      </div>
+      <div class="bl-card animate-up delay-2">
+        <div class="bl-icon">🧘</div>
+        <h4>Stay Calm</h4>
+        <p>If nervous, take slow deep breaths before responding. Calm breathing naturally steadies your voice and heart rate.</p>
+      </div>
+    </div>
+
+    <!-- Dos and Don'ts -->
+    <h2 class="section-title animate-up">Do's & Don'ts<span class="accent-dot">.</span></h2>
+    <p class="section-subtitle animate-up delay-1">Quick reference for interview day</p>
+
+    <div class="do-dont animate-up delay-1">
+      <div class="do-box">
+        <h3>✅ Do This</h3>
+        <ul class="dd-list">
+          <li>Arrive 10–15 minutes early (or log in 5 minutes early for virtual)</li>
+          <li>Greet the interviewer warmly and introduce yourself</li>
+          <li>Use specific examples to back your answers</li>
+          <li>Ask thoughtful questions at the end</li>
+          <li>Send a thank-you email within 24 hours</li>
+          <li>Research the company thoroughly beforehand</li>
+          <li>Dress professionally (even for virtual interviews)</li>
+        </ul>
+      </div>
+      <div class="dont-box">
+        <h3>❌ Avoid This</h3>
+        <ul class="dd-list">
+          <li>Badmouthing your previous employer or colleagues</li>
+          <li>Checking your phone during the interview</li>
+          <li>Giving one-word answers to behavioral questions</li>
+          <li>Lying about experience, skills, or qualifications</li>
+          <li>Asking about salary in the very first round</li>
+          <li>Interrupting the interviewer mid-question</li>
+          <li>Using very casual language or slang</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin: 0 0 80px; display:flex; gap:12px; flex-wrap:wrap;">
+      <button class="btn btn-success" onclick="markDone()">✅ Mark Section Complete</button>
+      <a href="index.html" class="btn btn-outline">← Back to Dashboard</a>
+    </div>
+  </main>
+
+  <div id="toast"></div>
+  <script src="script.js"></script>
+  <script>
+    requireAuth();
+
+    function markDone() {
+      markSection('communication');
+      renderProgressBars();
+      showToast('Communication section marked complete! 🎉');
+    }
+  </script>
+</body>
+</html>

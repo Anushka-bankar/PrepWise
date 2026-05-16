@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PrepWise – Aptitude Questions</title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+:root {
+  --bg:#0d0f1a; --surface:#141728; --surface2:#1c2038;
+  --border:rgba(255,255,255,0.07); --accent:#6c63ff; --accent2:#ff6584;
+  --accent3:#43e97b; --text:#e8eaf0; --text-muted:#8890a6;
+  --radius:16px; --radius-sm:10px; --shadow:0 8px 40px rgba(0,0,0,0.4);
+  --transition:0.28s cubic-bezier(0.4,0,0.2,1);
+}
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; line-height:1.6; overflow-x:hidden; }
+body::before { content:''; position:fixed; inset:0; background:radial-gradient(ellipse 80% 60% at 10% 10%,rgba(108,99,255,.12) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 90% 90%,rgba(255,101,132,.08) 0%,transparent 55%); pointer-events:none; z-index:0; }
+h1,h2,h3,h4 { font-family:'Syne',sans-serif; font-weight:700; line-height:1.2; }
+a { color:var(--accent); text-decoration:none; }
+.container { max-width:1100px; margin:0 auto; padding:0 24px; position:relative; z-index:1; }
+
+/* Navbar */
+.navbar { position:sticky; top:0; z-index:100; backdrop-filter:blur(20px); background:rgba(13,15,26,.85); border-bottom:1px solid var(--border); padding:0 24px; }
+.navbar-inner { max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; height:64px; }
+.logo { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:800; color:var(--text); display:flex; align-items:center; gap:8px; }
+.logo span { color:var(--accent); }
+.nav-links { display:flex; gap:6px; align-items:center; }
+.nav-links a { color:var(--text-muted); font-size:.875rem; font-weight:500; padding:7px 14px; border-radius:8px; transition:all var(--transition); }
+.nav-links a:hover,.nav-links a.active { color:var(--text); background:var(--surface2); }
+.nav-user { display:flex; align-items:center; gap:12px; }
+.nav-user span { font-size:.85rem; color:var(--text-muted); }
+.btn-logout { padding:6px 16px; background:transparent; border:1px solid var(--border); border-radius:8px; color:var(--text-muted); font-size:.8rem; cursor:pointer; transition:all var(--transition); }
+.btn-logout:hover { background:var(--surface2); color:var(--text); }
+
+/* Buttons */
+.btn { display:inline-flex; align-items:center; gap:8px; padding:12px 28px; border-radius:var(--radius-sm); font-family:'DM Sans',sans-serif; font-size:.95rem; font-weight:500; cursor:pointer; border:none; transition:all var(--transition); }
+.btn-outline { background:transparent; border:1px solid var(--border); color:var(--text); }
+.btn-outline:hover { background:var(--surface2); }
+.btn-sm { padding:8px 18px; font-size:.85rem; }
+
+/* Badges */
+.badge { display:inline-block; padding:4px 12px; border-radius:100px; font-size:.75rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase; }
+.badge-purple { background:rgba(108,99,255,.15); color:var(--accent); border:1px solid rgba(108,99,255,.2); }
+.accent-dot { color:var(--accent); }
+
+/* Toast */
+#toast { position:fixed; bottom:30px; right:30px; background:var(--surface2); border:1px solid var(--border); border-left:3px solid var(--accent3); color:var(--text); padding:14px 22px; border-radius:var(--radius-sm); font-size:.875rem; z-index:9999; opacity:0; transform:translateY(12px); transition:all .3s ease; pointer-events:none; }
+#toast.show { opacity:1; transform:translateY(0); }
+
+/* Hero */
+.page-hero { padding:60px 0 40px; position:relative; z-index:1; }
+.page-hero h1 { font-size:clamp(2rem,5vw,3rem); margin-bottom:12px; }
+.page-hero p { color:var(--text-muted); font-size:1.05rem; max-width:540px; }
+
+/* Answer box */
+.answer-box { display:none; margin-top:12px; padding:14px 18px; background:rgba(67,233,123,.06); border:1px solid rgba(67,233,123,.18); border-radius:var(--radius-sm); color:var(--text); font-size:.9rem; line-height:1.6; }
+.answer-box.visible { display:block; animation:fadeIn .3s ease; }
+
+/* Options */
+.options { display:flex; flex-direction:column; gap:8px; margin:14px 0; }
+.option-btn { padding:10px 16px; background:var(--surface2); border:1px solid var(--border); border-radius:var(--radius-sm); color:var(--text); font-size:.9rem; cursor:pointer; text-align:left; transition:all var(--transition); font-family:'DM Sans',sans-serif; }
+.option-btn:hover:not(:disabled) { border-color:rgba(108,99,255,.4); background:rgba(108,99,255,.08); }
+.option-btn.correct { border-color:var(--accent3); background:rgba(67,233,123,.1); color:#43e97b; }
+.option-btn.wrong   { border-color:var(--accent2); background:rgba(255,101,132,.1); color:var(--accent2); }
+
+/* Animations */
+@keyframes fadeIn  { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+@keyframes slideUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+.animate-up { animation:slideUp .5s ease forwards; }
+.delay-1 { animation-delay:.1s; opacity:0; }
+@media(max-width:768px){ .nav-links{display:none} .page-hero{padding:40px 0 24px} }
+
+/* ══ SCOREBOARD ══ */
+.score-board {
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:24px 28px; margin-bottom:32px;
+  display:flex; gap:24px; flex-wrap:wrap; align-items:center;
+}
+.sb-item { text-align:center; min-width:56px; }
+.sb-num { font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; transition:all .4s ease; }
+.sb-lbl { font-size:.72rem; color:var(--text-muted); margin-top:2px; text-transform:uppercase; letter-spacing:.04em; }
+.c-blue  { color:var(--accent); }
+.c-green { color:var(--accent3); }
+.c-red   { color:var(--accent2); }
+
+/* ══ LIVE BAR ══ */
+.live-bar-wrap { flex:1; min-width:200px; }
+.live-bar-header {
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom:8px; font-size:.82rem;
+}
+.live-bar-header .bar-label { color:var(--text-muted); }
+.live-bar-header .bar-pct   { font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:800; color:var(--text); transition:color .4s; }
+
+/* track */
+.bar-track { background:var(--surface2); border-radius:100px; height:14px; overflow:hidden; position:relative; }
+/* the animated fill */
+.bar-fill {
+  height:100%; border-radius:100px; width:0%;
+  transition: width .55s cubic-bezier(.4,0,.2,1), background .4s ease;
+  position:relative;
+}
+/* glowing pulse on leading edge */
+.bar-fill::after {
+  content:''; position:absolute; right:0; top:0; bottom:0; width:24px;
+  background:rgba(255,255,255,.3); border-radius:100px;
+  animation:pulse-glow 1.2s ease-in-out infinite;
+}
+@keyframes pulse-glow { 0%,100%{opacity:0} 50%{opacity:1} }
+
+/* colour states — change automatically based on accuracy */
+.bar-fill.c0   { background:linear-gradient(90deg,#333,#444); }
+.bar-fill.clow { background:linear-gradient(90deg,#ff6584,#ff8fa3); }   /* <40%  red    */
+.bar-fill.cmid { background:linear-gradient(90deg,#ffc439,#ffe08a); }   /* <70%  yellow */
+.bar-fill.chi  { background:linear-gradient(90deg,#43e97b,#38f9d7); }   /* >=70% green  */
+.bar-fill.c100 { background:linear-gradient(90deg,#43e97b,#00c9a7); }   /* 100%  teal   */
+
+/* tri-colour mini bar underneath */
+.mini-bar { display:flex; gap:3px; margin-top:6px; height:4px; }
+.mini-bar div { border-radius:100px; transition:flex .5s ease; }
+.mini-c { background:var(--accent3); }
+.mini-w { background:var(--accent2); }
+.mini-r { background:var(--surface2); flex:1; }
+
+/* ══ Q CARD ══ */
+.q-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:26px 28px; margin-bottom:18px; transition:all var(--transition); }
+.q-card.ok  { border-left:4px solid var(--accent3); }
+.q-card.bad { border-left:4px solid var(--accent2); }
+.q-num  { font-size:.75rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
+.q-text { font-size:1rem; font-weight:500; margin-bottom:16px; line-height:1.6; }
+.q-tag  { display:inline-block; padding:3px 10px; border-radius:100px; font-size:.72rem; font-weight:700; text-transform:uppercase; margin-bottom:8px; }
+.q-tag.ok  { background:rgba(67,233,123,.15); color:var(--accent3); }
+.q-tag.bad { background:rgba(255,101,132,.15); color:var(--accent2); }
+
+/* ══ COMPLETION BANNER ══ */
+.done-banner {
+  display:none; background:linear-gradient(135deg,rgba(67,233,123,.08),rgba(56,249,215,.04));
+  border:1px solid rgba(67,233,123,.25); border-radius:var(--radius);
+  padding:32px; text-align:center; margin-bottom:32px; animation:fadeIn .5s ease;
+}
+.done-banner h3  { font-size:1.5rem; margin-bottom:6px; }
+.done-banner p   { color:var(--text-muted); }
+.done-banner .big { font-family:'Syne',sans-serif; font-size:4rem; font-weight:800; color:var(--accent3); line-height:1; margin:14px 0 8px; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar-inner">
+    <div class="logo">🎯 Prep<span>Wise</span></div>
+    <div class="nav-links">
+      <a href="index.html">Dashboard</a>
+      <a href="aptitude.html" class="active">Aptitude</a>
+      <a href="hrquestions.html">HR Questions</a>
+      <a href="communication.html">Communication</a>
+    </div>
+    <div class="nav-user">
+      <span>Hi, <span id="nav-user-name"></span></span>
+      <button class="btn-logout" id="btn-logout">Logout</button>
+    </div>
+  </div>
+</nav>
+
+<main class="container">
+  <div class="page-hero animate-up">
+    <span class="badge badge-purple" style="margin-bottom:14px;">🧠 Aptitude Practice</span>
+    <h1>Aptitude Questions<span class="accent-dot">.</span></h1>
+    <p>Click any option — the score bar updates <strong>live</strong> with every answer. Green = correct streak, Yellow = average, Red = needs work.</p>
+  </div>
+
+  <!-- LIVE SCOREBOARD -->
+  <div class="score-board animate-up delay-1">
+    <div class="sb-item">
+      <div class="sb-num c-blue"  id="sb-att">0</div>
+      <div class="sb-lbl">Attempted</div>
+    </div>
+    <div class="sb-item">
+      <div class="sb-num c-green" id="sb-cor">0</div>
+      <div class="sb-lbl">Correct ✅</div>
+    </div>
+    <div class="sb-item">
+      <div class="sb-num c-red"   id="sb-wrg">0</div>
+      <div class="sb-lbl">Wrong ❌</div>
+    </div>
+
+    <div class="live-bar-wrap">
+      <div class="live-bar-header">
+        <span class="bar-label" id="bar-label">Answer a question to start!</span>
+        <span class="bar-pct"   id="bar-pct">0%</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill c0" id="bar-fill"></div>
+      </div>
+      <div class="mini-bar">
+        <div class="mini-c" id="mc" style="flex:0"></div>
+        <div class="mini-w" id="mw" style="flex:0"></div>
+        <div class="mini-r" id="mr" style="flex:10"></div>
+      </div>
+    </div>
+
+    <button class="btn btn-outline btn-sm" onclick="resetQuiz()">🔄 Reset</button>
+  </div>
+
+  <!-- Completion banner -->
+  <div class="done-banner" id="done-banner">
+    <div style="font-size:2.5rem">🎉</div>
+    <h3>Quiz Complete!</h3>
+    <div class="big" id="final-score">0/10</div>
+    <p id="final-msg"></p>
+  </div>
+
+  <div id="quiz-wrap"></div>
+
+  <div style="margin:32px 0 80px;display:flex;gap:12px;flex-wrap:wrap;">
+    <a href="index.html" class="btn btn-outline">← Back to Dashboard</a>
+  </div>
+</main>
+
+<div id="toast"></div>
+
+<script>
+/* ── helpers ── */
+function getUser(){ return localStorage.getItem('pw_user')||''; }
+function getUserName(){ const e=getUser(); if(!e) return 'Friend'; const n=e.split('@')[0]; return n[0].toUpperCase()+n.slice(1); }
+function requireAuth(){ if(!getUser()) location.href='login.html'; }
+function logout(){ localStorage.removeItem('pw_user'); location.href='login.html'; }
+function showToast(m){ const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
+
+requireAuth();
+document.addEventListener('DOMContentLoaded',()=>{
+  const u=document.getElementById('nav-user-name'); if(u) u.textContent=getUserName();
+  const lb=document.getElementById('btn-logout'); if(lb) lb.onclick=logout;
+});
+
+/* ── questions ── */
+const Q=[
+  {q:"If the average of 5 numbers is 27, what is their sum?",          o:["125","135","140","150"],             a:1, ex:"Sum = Average × Count = 27 × 5 = 135"},
+  {q:"A train travels 360 km in 4 hours. What is its speed?",          o:["80 km/h","90 km/h","100 km/h","70 km/h"], a:1, ex:"Speed = Distance ÷ Time = 360 ÷ 4 = 90 km/h"},
+  {q:"What comes next: 2, 6, 12, 20, 30, __?",                        o:["40","42","44","46"],                 a:1, ex:"Differences 4,6,8,10,12 → 30+12 = 42"},
+  {q:"A is brother of B, B is sister of C, C is son of D. A is related to D as?", o:["Son","Daughter","Nephew","Son or Daughter"], a:3, ex:"A is D's son via chain of siblings."},
+  {q:"What is 15% of 240?",                                            o:["32","34","36","38"],                 a:2, ex:"(15/100) × 240 = 36"},
+  {q:"6 men finish a job in 10 days. How long for 10 men?",            o:["4","6","5","8"],                    a:1, ex:"6×10 = 10×D → D = 6 days"},
+  {q:"Item sold at ₹650 with 30% profit. Find cost price.",            o:["₹480","₹490","₹500","₹510"],        a:2, ex:"CP = 650 ÷ 1.30 = ₹500"},
+  {q:"Odd one out: Apple, Mango, Potato, Orange",                      o:["Apple","Mango","Potato","Orange"],   a:2, ex:"Potato is a vegetable; others are fruits."},
+  {q:"Missing number: 3, 9, 27, 81, __",                              o:["162","243","256","729"],             a:1, ex:"Each ×3 → 81×3 = 243"},
+  {q:"If COLD → DPME, then WARM is coded as?",                         o:["XBSN","WBSN","XASM","XBRN"],        a:0, ex:"Each letter +1: W→X A→B R→S M→N = XBSN"},
+];
+const N=Q.length;
+
+/* ── state ── */
+let S={att:0,cor:0,wrg:0,ans:{}};
+function load(){ const r=localStorage.getItem('pw_apt'); if(r) S=JSON.parse(r); }
+function save(){ localStorage.setItem('pw_apt',JSON.stringify(S)); }
+
+function resetQuiz(){
+  localStorage.removeItem('pw_apt');
+  S={att:0,cor:0,wrg:0,ans:{}};
+  document.getElementById('done-banner').style.display='none';
+  render(); updateBar();
+}
+
+/* ── LIVE BAR — the key function ── */
+function updateBar(){
+  const {att,cor,wrg}=S;
+  const rem=N-att;
+
+  // numbers
+  document.getElementById('sb-att').textContent=att;
+  document.getElementById('sb-cor').textContent=cor;
+  document.getElementById('sb-wrg').textContent=wrg;
+
+  // percentage = correct out of TOTAL (so wrong answers pull it DOWN)
+  const pct = att===0 ? 0 : Math.round((cor/N)*100);
+
+  const fill  = document.getElementById('bar-fill');
+  const pctEl = document.getElementById('bar-pct');
+  const lblEl = document.getElementById('bar-label');
+
+  // width
+  fill.style.width = pct+'%';
+  pctEl.textContent = pct+'%';
+
+  // colour class — changes live as accuracy shifts
+  fill.className='bar-fill ';
+  if      (att===0)  fill.className+='c0';
+  else if (pct===100)fill.className+='c100';
+  else if (pct>=70)  fill.className+='chi';
+  else if (pct>=40)  fill.className+='cmid';
+  else               fill.className+='clow';
+
+  // pct colour echo
+  pctEl.style.color = att===0?'var(--text)' : pct>=70?'#43e97b' : pct>=40?'#ffc439' : '#ff6584';
+
+  // label
+  if      (att===0)   lblEl.textContent='Answer a question to start!';
+  else if (pct===100) lblEl.textContent='🏆 Perfect score!';
+  else if (pct>=70)   lblEl.textContent='🟢 Great accuracy! Keep it up!';
+  else if (pct>=40)   lblEl.textContent='🟡 Not bad — push for 70%+!';
+  else                lblEl.textContent='🔴 Read the explanations & retry!';
+
+  // mini tri-bar
+  document.getElementById('mc').style.flex=cor;
+  document.getElementById('mw').style.flex=wrg;
+  document.getElementById('mr').style.flex=Math.max(rem,0);
+
+  // auto-complete
+  if(att===N) showDone(cor);
+}
+
+function showDone(cor){
+  const b=document.getElementById('done-banner');
+  b.style.display='block';
+  document.getElementById('final-score').textContent=cor+'/'+N;
+  const pct=Math.round((cor/N)*100);
+  const msgs=[
+    [100,'🏆 Perfect! Absolutely outstanding!'],
+    [80, '🎯 Excellent! You\'re well-prepared!'],
+    [60, '👍 Good job — a bit more practice!'],
+    [40, '📚 Review the explanations and retry!'],
+    [0,  '💪 Don\'t give up — reset and try again!'],
+  ];
+  const msg=msgs.find(([t])=>pct>=t)[1];
+  document.getElementById('final-msg').textContent=msg;
+  b.scrollIntoView({behavior:'smooth',block:'center'});
+  showToast('Quiz done! Score: '+cor+'/'+N+' ('+pct+'%) 🎯');
+
+  // mark section complete in dashboard
+  const p=JSON.parse(localStorage.getItem('pw_progress')||'{}');
+  p.aptitude=true;
+  localStorage.setItem('pw_progress',JSON.stringify(p));
+}
+
+/* ── render cards ── */
+function render(){
+  document.getElementById('quiz-wrap').innerHTML=Q.map((q,i)=>{
+    const done=S.ans[i]!==undefined;
+    const isOk=done && S.ans[i]===q.a;
+    return `
+    <div class="q-card ${done?(isOk?'ok':'bad'):''} animate-up">
+      <div class="q-num">Q${i+1} / ${N}</div>
+      ${done?`<span class="q-tag ${isOk?'ok':'bad'}">${isOk?'✅ Correct':'❌ Wrong'}</span>`:''}
+      <div class="q-text">${q.q}</div>
+      <div class="options">
+        ${q.o.map((opt,j)=>{
+          let cls='option-btn';
+          if(done){ if(j===q.a) cls+=' correct'; else if(j===S.ans[i]) cls+=' wrong'; }
+          return `<button class="${cls}" onclick="pick(${i},${j})" ${done?'disabled':''}>${opt}</button>`;
+        }).join('')}
+      </div>
+      <div class="answer-box ${done?'visible':''}" id="ax-${i}">
+        <strong>💡 Explanation:</strong> ${q.ex}
+      </div>
+      ${!done?`<div style="margin-top:12px"><button class="btn btn-outline btn-sm" onclick="reveal(${i})">Show Explanation</button></div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function pick(qi,oi){
+  if(S.ans[qi]!==undefined) return;
+  S.ans[qi]=oi;
+  S.att++;
+  if(oi===Q[qi].a) S.cor++; else S.wrg++;
+  save();
+  render();
+  updateBar();   // ← bar updates INSTANTLY here
+}
+
+function reveal(qi){
+  const b=document.getElementById('ax-'+qi);
+  if(b) b.classList.add('visible');
+}
+
+/* ── init ── */
+load(); render(); updateBar();
+if(S.att===N) showDone(S.cor);
+</script>
+</body>
+</html>

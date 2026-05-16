@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PrepWise – HR Interview Questions</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .category-tab-row {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px;
+    }
+    .cat-tab {
+      padding: 8px 18px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .cat-tab.active, .cat-tab:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .tag-pill {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 100px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 10px;
+    }
+    .tag-intro { background: rgba(108,99,255,0.12); color: var(--accent); }
+    .tag-strength { background: rgba(67,233,123,0.1); color: #43e97b; }
+    .tag-weakness { background: rgba(255,196,57,0.1); color: #ffc439; }
+    .tag-motivation { background: rgba(255,101,132,0.1); color: var(--accent2); }
+    .tag-behavioral { background: rgba(99,179,237,0.12); color: #63b3ed; }
+    .tip-inline {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.03);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+    }
+    .tip-inline strong { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="logo">🎯 Prep<span>Wise</span></div>
+      <div class="nav-links">
+        <a href="index.html">Dashboard</a>
+        <a href="aptitude.html">Aptitude</a>
+        <a href="hrquestions.html" class="active">HR Questions</a>
+        <a href="communication.html">Communication</a>
+      </div>
+      <div class="nav-user">
+        <span>Hi, <span id="nav-user-name"></span></span>
+        <button class="btn-logout" id="btn-logout">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="page-hero animate-up">
+      <span class="badge badge-pink" style="margin-bottom:14px;">🤝 HR Preparation</span>
+      <h1>HR Interview Questions<span class="accent-dot">.</span></h1>
+      <p>Master the most asked HR questions with structured sample answers. Click any question to expand the answer.</p>
+    </div>
+
+    <div class="category-tab-row animate-up delay-1">
+      <button class="cat-tab active" onclick="filterCat('all', this)">All Questions</button>
+      <button class="cat-tab" onclick="filterCat('intro', this)">Introduction</button>
+      <button class="cat-tab" onclick="filterCat('strength', this)">Strengths & Weaknesses</button>
+      <button class="cat-tab" onclick="filterCat('motivation', this)">Motivation & Goals</button>
+      <button class="cat-tab" onclick="filterCat('behavioral', this)">Behavioral</button>
+    </div>
+
+    <div id="hr-list"></div>
+
+    <div style="margin: 32px 0 80px; display:flex; gap:12px; flex-wrap:wrap;">
+      <button class="btn btn-success" onclick="markDone()">✅ Mark Section Complete</button>
+      <a href="index.html" class="btn btn-outline">← Back to Dashboard</a>
+    </div>
+  </main>
+
+  <div id="toast"></div>
+  <script src="script.js"></script>
+  <script>
+    requireAuth();
+
+    const hrQuestions = [
+      {
+        cat: 'intro',
+        tag: 'intro',
+        q: "Tell me about yourself.",
+        sample: `<strong>Sample Answer:</strong> "I'm a Computer Science graduate with a passion for software development. During my studies, I worked on several real-world projects including a web application for college event management. I'm a quick learner who enjoys problem-solving and I thrive in collaborative team environments. I'm excited about this opportunity because it aligns perfectly with my skills and career goals."`,
+        tip: "<strong>Tip:</strong> Structure with Past → Present → Future. Keep it under 2 minutes. Focus on professional highlights, not your life story."
+      },
+      {
+        cat: 'intro',
+        tag: 'intro',
+        q: "Why do you want to join this company?",
+        sample: `<strong>Sample Answer:</strong> "I've researched your company and I'm genuinely impressed by your focus on innovation and your commitment to employee growth. The role aligns with my technical skills, and I admire the company culture based on what I've read. I believe this is a place where I can contribute meaningfully and grow professionally."`,
+        tip: "<strong>Tip:</strong> Research the company before the interview. Mention specific products, values, or achievements that genuinely appeal to you."
+      },
+      {
+        cat: 'strength',
+        tag: 'strength',
+        q: "What are your greatest strengths?",
+        sample: `<strong>Sample Answer:</strong> "One of my greatest strengths is my ability to pick up new technologies quickly. For example, I learned React.js in three weeks and built a functional project using it. I'm also highly organized and reliable — I consistently meet deadlines and communicate proactively when challenges arise."`,
+        tip: "<strong>Tip:</strong> Choose 2–3 strengths relevant to the job. Always back them with a specific example using the STAR method."
+      },
+      {
+        cat: 'strength',
+        tag: 'weakness',
+        q: "What is your greatest weakness?",
+        sample: `<strong>Sample Answer:</strong> "I used to struggle with public speaking — I'd get nervous presenting to groups. Recognizing this, I joined my college debate club and took an online communication course. Over time I've become much more comfortable presenting and now actually enjoy it. I still keep practising to improve further."`,
+        tip: "<strong>Tip:</strong> Always pick a real weakness, not a fake one like 'I work too hard.' Show that you're actively working to improve it."
+      },
+      {
+        cat: 'motivation',
+        tag: 'motivation',
+        q: "Where do you see yourself in 5 years?",
+        sample: `<strong>Sample Answer:</strong> "In 5 years I see myself as a senior developer or team lead, contributing to impactful projects. I plan to deepen my expertise in cloud technologies and system design. I want to grow within a company where I can take on more responsibilities while continuing to deliver results."`,
+        tip: "<strong>Tip:</strong> Show ambition but keep it realistic. Align your long-term goals with what the company can offer."
+      },
+      {
+        cat: 'motivation',
+        tag: 'motivation',
+        q: "Why should we hire you?",
+        sample: `<strong>Sample Answer:</strong> "You should hire me because I bring a unique combination of technical skill, a strong work ethic, and a genuine passion for this field. I've already proven through my projects that I can build real solutions independently. I adapt quickly, I communicate clearly, and I'm committed to delivering quality work. I'm confident I'll add value to your team from day one."`,
+        tip: "<strong>Tip:</strong> This is your personal sales pitch. Be confident, specific, and connect your skills directly to what the role requires."
+      },
+      {
+        cat: 'behavioral',
+        tag: 'behavioral',
+        q: "Tell me about a time you worked in a team.",
+        sample: `<strong>Sample Answer:</strong> "During a college hackathon, I was part of a 4-person team. We had to build a working prototype in 24 hours. I took on the backend development role and coordinated with the frontend developer to ensure our APIs matched the design. We divided tasks based on strengths, communicated constantly, and delivered a working product on time — winning 2nd place."`,
+        tip: "<strong>Tip:</strong> Use the STAR format: Situation, Task, Action, Result. Focus on your specific contribution within the team."
+      },
+      {
+        cat: 'behavioral',
+        tag: 'behavioral',
+        q: "Describe a challenge you faced and how you overcame it.",
+        sample: `<strong>Sample Answer:</strong> "During my final year project, I ran into a critical bug two days before the submission deadline that caused data corruption. I stayed calm, broke the problem into smaller pieces, and spent the night systematically debugging each component. I found the issue — an off-by-one error in my data processing function — fixed it, re-tested everything, and submitted on time with a clean demo."`,
+        tip: "<strong>Tip:</strong> Employers want to see problem-solving and resilience. Choose a real challenge where you played an active role in the solution."
+      },
+      {
+        cat: 'behavioral',
+        tag: 'behavioral',
+        q: "How do you handle pressure or stress?",
+        sample: `<strong>Sample Answer:</strong> "I handle pressure by breaking large tasks into smaller manageable steps and prioritizing them. I maintain a daily task list and set mini-deadlines to avoid last-minute rushes. When things get intense, I take short breaks to clear my head. I've found this approach keeps me productive and focused even under tight deadlines."`,
+        tip: "<strong>Tip:</strong> Give a concrete example of a stressful situation you navigated well. Avoid saying stress doesn't affect you — everyone gets stressed."
+      },
+      {
+        cat: 'intro',
+        tag: 'intro',
+        q: "Do you have any questions for us?",
+        sample: `<strong>Sample Answers:</strong><br>
+          • "What does success look like for someone in this role in the first 90 days?"<br>
+          • "What are the biggest challenges the team is currently facing?"<br>
+          • "How does the company support continuous learning and career growth?"<br>
+          • "What does the onboarding process look like?"`,
+        tip: "<strong>Tip:</strong> Always prepare 2–3 thoughtful questions. Never say 'No, I think you've covered everything.' This shows genuine interest and preparation."
+      }
+    ];
+
+    let currentCat = 'all';
+    let openItems = new Set();
+
+    const tagClass = { intro: 'tag-intro', strength: 'tag-strength', weakness: 'tag-weakness', motivation: 'tag-motivation', behavioral: 'tag-behavioral' };
+    const tagLabel = { intro: 'Introduction', strength: 'Strength', weakness: 'Weakness', motivation: 'Motivation', behavioral: 'Behavioral' };
+
+    function renderHR() {
+      const filtered = currentCat === 'all' ? hrQuestions : hrQuestions.filter(h => h.cat === currentCat);
+      const list = document.getElementById('hr-list');
+      list.innerHTML = filtered.map((h, i) => {
+        const globalIdx = hrQuestions.indexOf(h);
+        const isOpen = openItems.has(globalIdx);
+        return `
+        <div class="hr-item ${isOpen ? 'open' : ''} animate-up" id="hri-${globalIdx}">
+          <div class="hr-question" onclick="toggleItem(${globalIdx})">
+            <div>
+              <span class="tag-pill ${tagClass[h.tag]}">${tagLabel[h.tag]}</span><br/>
+              ${h.q}
+            </div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="hr-answer">
+            <div class="hr-answer-inner">
+              <p style="margin-bottom:12px;">${h.sample}</p>
+              <div class="tip-inline">${h.tip}</div>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function toggleItem(idx) {
+      if (openItems.has(idx)) openItems.delete(idx);
+      else openItems.add(idx);
+      renderHR();
+    }
+
+    function filterCat(cat, btn) {
+      currentCat = cat;
+      document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderHR();
+    }
+
+    function markDone() {
+      markSection('hr');
+      renderProgressBars();
+      showToast('HR Questions section marked complete! 🎉');
+    }
+
+    renderHR();
+  </script>
+</body>
+</html>

@@ -155,6 +155,7 @@ a { color:var(--accent); text-decoration:none; }
       <a href="aptitude.html" class="active">Aptitude</a>
       <a href="hrquestions.html">HR Questions</a>
       <a href="communication.html">Communication</a>
+        <a href="profile.html">Profile</a>
     </div>
     <div class="nav-user">
       <span>Hi, <span id="nav-user-name"></span></span>
@@ -222,10 +223,10 @@ a { color:var(--accent); text-decoration:none; }
 
 <script>
 /* ── helpers ── */
-function getUser(){ return localStorage.getItem('pw_user')||''; }
-function getUserName(){ const e=getUser(); if(!e) return 'Friend'; const n=e.split('@')[0]; return n[0].toUpperCase()+n.slice(1); }
-function requireAuth(){ if(!getUser()) location.href='login.html'; }
-function logout(){ localStorage.removeItem('pw_user'); location.href='login.html'; }
+function getSession(){ return getSession()||''; }
+function getUserName(){ const e=getSession(); if(!e) return 'Friend'; const n=e.split('@')[0]; return n[0].toUpperCase()+n.slice(1); }
+function requireAuth(){ if(!getSession()) location.href='login.html'; }
+function logout(){ sessionStorage.removeItem('pw_session'); localStorage.removeItem('pw_remember'); location.href='register.html?tab=login'; }
 function showToast(m){ const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
 
 requireAuth();

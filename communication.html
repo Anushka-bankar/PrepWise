@@ -4,7 +4,381 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PrepWise – Communication Tips</title>
-  <link rel="stylesheet" href="style.css" />
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+
+/* ── CSS Variables ── */
+:root {
+  --bg: #0d0f1a;
+  --surface: #141728;
+  --surface2: #1c2038;
+  --border: rgba(255,255,255,0.07);
+  --accent: #6c63ff;
+  --accent2: #ff6584;
+  --accent3: #43e97b;
+  --text: #e8eaf0;
+  --text-muted: #8890a6;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 8px 40px rgba(0,0,0,0.4);
+  --transition: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── Background mesh ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 10%, rgba(108,99,255,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 90% 90%, rgba(255,101,132,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(67,233,123,0.04) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Typography ── */
+h1, h2, h3, h4 { font-family: 'Syne', sans-serif; font-weight: 700; line-height: 1.2; }
+a { color: var(--accent); text-decoration: none; }
+
+/* ── Layout Utilities ── */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+.flex { display: flex; }
+.grid { display: grid; }
+
+/* ── Navbar ── */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(20px);
+  background: rgba(13, 15, 26, 0.85);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+}
+.navbar-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+.logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 6px; align-items: center; }
+.nav-links a {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 8px;
+  transition: all var(--transition);
+}
+.nav-links a:hover, .nav-links a.active {
+  color: var(--text);
+  background: var(--surface2);
+}
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.nav-user span {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.btn-logout {
+  padding: 6px 16px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.btn-logout:hover { background: var(--surface2); color: var(--text); }
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 24px rgba(108,99,255,0.35);
+}
+.btn-primary:hover {
+  background: #7b74ff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(108,99,255,0.5);
+}
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.btn-outline:hover { background: var(--surface2); border-color: rgba(255,255,255,0.15); }
+.btn-sm { padding: 8px 18px; font-size: 0.85rem; }
+.btn-success {
+  background: linear-gradient(135deg, #43e97b, #38f9d7);
+  color: #0a1a12;
+  font-weight: 600;
+}
+.btn-success:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(67,233,123,0.35); }
+
+/* ── Cards ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  transition: all var(--transition);
+}
+.card:hover {
+  border-color: rgba(108,99,255,0.25);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+
+/* ── Section Titles ── */
+.section-title {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  margin-bottom: 8px;
+}
+.section-subtitle {
+  color: var(--text-muted);
+  margin-bottom: 40px;
+  font-size: 1rem;
+}
+.accent-dot { color: var(--accent); }
+
+/* ── Pill/Badge ── */
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.badge-purple { background: rgba(108,99,255,0.15); color: var(--accent); border: 1px solid rgba(108,99,255,0.2); }
+.badge-green  { background: rgba(67,233,123,0.12); color: #43e97b; border: 1px solid rgba(67,233,123,0.2); }
+.badge-pink   { background: rgba(255,101,132,0.12); color: var(--accent2); border: 1px solid rgba(255,101,132,0.2); }
+
+/* ── Progress Bar ── */
+.progress-wrap {
+  background: var(--surface2);
+  border-radius: 100px;
+  height: 8px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  border-radius: 100px;
+  background: linear-gradient(90deg, var(--accent), #a78bfa);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Toast ── */
+#toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent3);
+  color: var(--text);
+  padding: 14px 22px;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+#toast.show { opacity: 1; transform: translateY(0); }
+
+/* ── Page Hero ── */
+.page-hero {
+  padding: 60px 0 40px;
+  position: relative;
+  z-index: 1;
+}
+.page-hero h1 { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 12px; }
+.page-hero p  { color: var(--text-muted); font-size: 1.05rem; max-width: 540px; }
+
+/* ── Form styles (login) ── */
+.form-group { margin-bottom: 20px; }
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+.form-group input {
+  width: 100%;
+  padding: 13px 16px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color var(--transition);
+}
+.form-group input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(108,99,255,0.12); }
+.form-group input::placeholder { color: var(--text-muted); }
+.error-msg { color: var(--accent2); font-size: 0.8rem; margin-top: 6px; display: none; }
+
+/* ── Answer reveal ── */
+.answer-box {
+  display: none;
+  margin-top: 12px;
+  padding: 14px 18px;
+  background: rgba(67,233,123,0.06);
+  border: 1px solid rgba(67,233,123,0.18);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.answer-box.visible { display: block; animation: fadeIn 0.3s ease; }
+
+/* ── Option buttons (MCQ) ── */
+.options { display: flex; flex-direction: column; gap: 8px; margin: 14px 0; }
+.option-btn {
+  padding: 10px 16px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--transition);
+}
+.option-btn:hover { border-color: rgba(108,99,255,0.4); background: rgba(108,99,255,0.08); }
+.option-btn.correct { border-color: var(--accent3); background: rgba(67,233,123,0.1); color: #43e97b; }
+.option-btn.wrong   { border-color: var(--accent2); background: rgba(255,101,132,0.1); color: var(--accent2); }
+
+/* ── Tip cards ── */
+.tip-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  transition: all var(--transition);
+}
+.tip-card:hover { border-color: rgba(108,99,255,0.2); transform: translateX(4px); }
+.tip-icon {
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+/* ── HR accordion ── */
+.hr-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: all var(--transition);
+}
+.hr-item:hover { border-color: rgba(108,99,255,0.2); }
+.hr-question {
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+  gap: 16px;
+}
+.hr-question .chevron {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  transition: transform var(--transition);
+  flex-shrink: 0;
+}
+.hr-item.open .chevron { transform: rotate(180deg); }
+.hr-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hr-item.open .hr-answer { max-height: 500px; }
+.hr-answer-inner {
+  padding: 0 24px 20px;
+  color: var(--text-muted);
+  font-size: 0.93rem;
+  line-height: 1.75;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+}
+.hr-answer-inner strong { color: var(--text); }
+
+/* ── Animations ── */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.animate-up { animation: slideUp 0.5s ease forwards; }
+.delay-1 { animation-delay: 0.1s; opacity: 0; }
+.delay-2 { animation-delay: 0.2s; opacity: 0; }
+.delay-3 { animation-delay: 0.3s; opacity: 0; }
+.delay-4 { animation-delay: 0.4s; opacity: 0; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .page-hero { padding: 40px 0 24px; }
+}
+
+</style>
   <style>
     .tips-grid {
       display: grid;
@@ -95,6 +469,7 @@
         <a href="aptitude.html">Aptitude</a>
         <a href="hrquestions.html">HR Questions</a>
         <a href="communication.html" class="active">Communication</a>
+        <a href="profile.html">Profile</a>
       </div>
       <div class="nav-user">
         <span>Hi, <span id="nav-user-name"></span></span>
@@ -271,7 +646,61 @@
   </main>
 
   <div id="toast"></div>
-  <script src="script.js"></script>
+  <script>
+/* ── Auth helpers ── */
+function getSession(){ return localStorage.getItem('pw_remember')||sessionStorage.getItem('pw_session')||''; }
+function getUserName(){
+  const email=getSession(); if(!email) return 'Friend';
+  const users=JSON.parse(localStorage.getItem('pw_users')||'{}');
+  const u=users[email]; if(u&&u.name) return u.name.split(' ')[0];
+  return email.split('@')[0].replace(/./,c=>c.toUpperCase());
+}
+function requireAuth(){ if(!getSession()) window.location.href='register.html?tab=login'; }
+function logout(){ sessionStorage.removeItem('pw_session'); localStorage.removeItem('pw_remember'); window.location.href='register.html?tab=login'; }
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
+function initNav(){
+  const u=document.getElementById('nav-user-name'); if(u) u.textContent=getUserName();
+  document.querySelectorAll('.nav-links a').forEach(a=>{ if(location.href.endsWith(a.getAttribute('href'))) a.classList.add('active'); });
+  const lb=document.getElementById('btn-logout'); if(lb) lb.addEventListener('click',logout);
+}
+function getProgress(){ return JSON.parse(localStorage.getItem('pw_progress')||'{}'); }
+function markSection(s){ const p=getProgress(); p[s]=true; localStorage.setItem('pw_progress',JSON.stringify(p)); }
+function getProgressPct(){ const p=getProgress(); return Math.round(Object.keys(p).filter(k=>p[k]).length/3*100); }
+function resetProgress(){ localStorage.removeItem('pw_progress'); }
+function renderProgressBars(){
+  const pct=getProgressPct();
+  document.querySelectorAll('.progress-bar').forEach(b=>b.style.width=pct+'%');
+  document.querySelectorAll('.progress-pct').forEach(e=>e.textContent=pct+'%');
+  document.querySelectorAll('.progress-label').forEach(e=>{ const d=Object.values(getProgress()).filter(Boolean).length; e.textContent=d+' / 3 sections completed'; });
+}
+document.addEventListener('DOMContentLoaded',()=>{ initNav(); renderProgressBars(); });
+
+  const logoutBtn = document.getElementById('btn-logout');
+  if (logoutBtn) logoutBtn.addEventListener('click', logout);
+}
+
+// ── Update progress bars wherever shown ──────────────────────
+function renderProgressBars() {
+  const pct = getProgressPct();
+  document.querySelectorAll('.progress-bar').forEach(bar => {
+    bar.style.width = pct + '%';
+  });
+  document.querySelectorAll('.progress-pct').forEach(el => {
+    el.textContent = pct + '%';
+  });
+  document.querySelectorAll('.progress-label').forEach(el => {
+    const done = Object.keys(getProgress()).filter(k => getProgress()[k]).length;
+    el.textContent = `${done} / ${SECTIONS.length} sections completed`;
+  });
+}
+
+// ── Run on DOMContentLoaded ───────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  initNav();
+  renderProgressBars();
+});
+
+</script>
   <script>
     requireAuth();
 
